@@ -37,7 +37,7 @@ angular.module('stockMarketApp', [
     views: {
       'menuContent': {
         templateUrl: 'templates/my-stocks.html',
-        controller: 'StockCtrl'
+        controller: 'MyStocksCtrl'
       }
     }
   })
