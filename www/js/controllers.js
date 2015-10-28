@@ -41,7 +41,7 @@ angular.module('stockMarketApp.controllers', [])
   };
 })
 
-.controller('PlaylistsCtrl', function($scope) {
+.controller('StockCtrl', function($scope) {
   $scope.playlists = [
     { title: 'Reggae', id: 1 },
     { title: 'Chill', id: 2 },

@@ -1,0 +1,3 @@
+angular.module('stockMarketApp.filters', [])
+
+;
