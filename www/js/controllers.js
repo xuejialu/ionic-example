@@ -52,7 +52,7 @@ angular.module('stockMarketApp.controllers', [])
       {ticker : "BAC"},
       {ticker : "C"},
       {ticker : "NFLX"},
-      {ticker : "MSFT"}
+      {ticker : "BRK-A"}
     ];
 }])
 
