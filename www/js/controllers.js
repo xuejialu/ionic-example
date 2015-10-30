@@ -56,14 +56,17 @@ angular.module('stockMarketApp.controllers', [])
     ];
 }])
 
-.controller('StockCtrl', ['$scope', '$stateParams', 'stockDataServce',
-  function($scope, $stateParams, stockDataServce) {
+.controller('StockCtrl', ['$scope', '$stateParams', 'stockDataServce', 'dateService',
+  function($scope, $stateParams, stockDataServce, dateService) {
 
     $scope.ticker = $stateParams.stockTicker;
 
     $scope.chartViewFunc = function(n) {
       $scope.chartView = n;
     };
+
+    console.log(dateService.currentDate());
+    console.log(dateService.oneYearAgoDate());
 
     $scope.$on("$ionicView.afterEnter", function(){
       getPriceData();
