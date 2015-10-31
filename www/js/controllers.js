@@ -83,6 +83,16 @@ angular.module('stockMarketApp.controllers', [])
       promise.then(function(data){
         console.log(data);
         $scope.stockPriceData = data;
+
+        if (data.chg_percent >= 0 && data !== null) {
+          $scope.reactiveColor = {
+            'background-color': '#33cd5f'
+          };
+        } else if (data.chg_percent < 0 && data === null) {
+          $scope.reactiveColor = {
+            'background-color': '#ef473a'
+          };
+        }
       });
     }
 
@@ -146,7 +156,7 @@ angular.module('stockMarketApp.controllers', [])
   	$scope.chartOptions = {
       chartType: 'linePlusBarWithFocusChart',
       data: 'myData',
-      margin: {top: 15, right: 40, bottom: marginBottom, left: 70},
+      margin: {top: 15, right: 20, bottom: marginBottom, left: 20},
       interpolate: "cardinal",
       useInteractiveGuideline: false,
       yShowMaxMin: false,
@@ -161,7 +171,10 @@ angular.module('stockMarketApp.controllers', [])
       y2AxisTickFormat: y2TickFormat,
       y3AxisTickFormat: y3TickFormat,
       y4AxisTickFormat: y4TickFormat,
-      transitionDuration: 500
+      transitionDuration: 500,
+      y1AxisLabel: 'Price',
+      y3AxisLabel: 'Volume',
+      noData: 'Loading data...'
   	};
 
 }]);
