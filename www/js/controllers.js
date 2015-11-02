@@ -56,8 +56,8 @@ angular.module('stockMarketApp.controllers', [])
     ];
 }])
 
-.controller('StockCtrl', ['$scope', '$stateParams', '$window', 'stockDataServce', 'dateService', 'chartDataService',
-  function($scope, $stateParams, $window, stockDataServce, dateService, chartDataService) {
+.controller('StockCtrl', ['$scope', '$stateParams', '$window', '$ionicPopup', 'stockDataServce', 'dateService', 'chartDataService',
+  function($scope, $stateParams, $window, $ionicPopup, stockDataServce, dateService, chartDataService) {
 
     $scope.ticker = $stateParams.stockTicker;
     $scope.chartView = 4;
@@ -76,6 +76,34 @@ angular.module('stockMarketApp.controllers', [])
       getDetailsData();
       getChartData();
     });
+
+    $scope.addNote = function() {
+      $scope.note = {title: 'Note', body: '', date: $scope.todayDate, ticker: $scope.ticker};
+
+      var note = $ionicPopup.show({
+        template: '<input type="text" ng-model="note.title" id="stock-note-title"><textarea type="text" ng-model="note.body" id="stock-note-body"></textarea>',
+        title: 'New Note for ' + $scope.ticker,
+        scope: $scope,
+        buttons: [
+          {
+            text: 'Cancel',
+            onTap: function(e) {
+              return;
+            }
+          },
+          {
+            text: '<b>Save</b>',
+            type: 'button-balanced',
+            onTap: function(e) {
+              console.log("save: ", $scope.note);
+            }
+          }
+        ]
+      });
+      note.then(function(res) {
+        console.log('Tapped!', res);
+      });
+    };
 
     function getPriceData() {
       var promise = stockDataServce.getPriceData($scope.ticker);
