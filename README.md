@@ -28,3 +28,11 @@ Section 11: Add News Feed
 XML to JSON library: https://code.google.com/p/x2js/
 
 Yahoo RSS News Feed: https://code.google.com/p/yahoo-finance-managed/wiki/miscapiRssFeed
+
+Summary
+
+In this section, we install a third party JavaScript library that converts XML data to JSON, then configure a service that retrieves data from RSS feeds via another Yahoo API. We do not, however, install or configure the inAppBrowser plugin.
+
+Then we style the news card in style.css.
+
+Lastly, we implement a new filter that limits the number of characters in a component in the view.
