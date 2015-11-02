@@ -3,6 +3,7 @@ angular.module('stockMarketApp', [
   'angular-cache',
   'nvd3',
   'nvChart',
+  'cb.x2js',
   'stockMarketApp.controllers',
   'stockMarketApp.services',
   'stockMarketApp.filters',

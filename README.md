@@ -22,3 +22,9 @@ Section 9: Angular Cache
 
 Install cache under www folder: looks like "bower install --save angular-cache" not working for me, so I download zip file from
 http://jmdobry.github.io/angular-cache/ and manually put into www/lib folder.
+
+Section 11: Add News Feed
+
+XML to JSON library: https://code.google.com/p/x2js/
+
+Yahoo RSS News Feed: https://code.google.com/p/yahoo-finance-managed/wiki/miscapiRssFeed
