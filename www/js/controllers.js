@@ -47,21 +47,19 @@ angular.module('stockMarketApp.controllers', [])
     $scope.myStockArray = myStocksArrayService;
 }])
 
-.controller('StockCtrl', ['$scope', '$stateParams', '$window', '$ionicPopup', 'stockDataServce', 'dateService', 'chartDataService', 'notesService', 'newsService',
-  function($scope, $stateParams, $window, $ionicPopup, stockDataServce, dateService, chartDataService, notesService, newsService) {
+.controller('StockCtrl', ['$scope', '$stateParams', '$window', '$ionicPopup', 'followStockService', 'stockDataServce', 'dateService', 'chartDataService', 'notesService', 'newsService',
+  function($scope, $stateParams, $window, $ionicPopup, followStockService, stockDataServce, dateService, chartDataService, notesService, newsService) {
 
     $scope.ticker = $stateParams.stockTicker;
     $scope.chartView = 4;
     $scope.oneYearAgoDate = dateService.oneYearAgoDate();
     $scope.todayDate = dateService.currentDate();
     $scope.stockNotes = [];
+    $scope.following = followStockService.checkFollowing($scope.ticker);
 
     $scope.chartViewFunc = function(n) {
       $scope.chartView = n;
     };
-
-    console.log(dateService.currentDate());
-    console.log(dateService.oneYearAgoDate());
 
     $scope.$on("$ionicView.afterEnter", function(){
       getPriceData();
@@ -71,10 +69,20 @@ angular.module('stockMarketApp.controllers', [])
       $scope.stockNotes = notesService.getNotes($scope.ticker);
     });
 
+    $scope.toggleFollow = function() {
+      if ($scope.following) {
+        followStockService.unfollow($scope.ticker);
+        $scope.following = false;
+      } else {
+        followStockService.follow($scope.ticker);
+        $scope.following = true;
+      }
+    };
+
     $scope.openWindow = function(link) {
       //TODO install and set up inAppBrowser
       console.log("openWindow -> " + link);
-    }
+    };
 
     $scope.addNote = function() {
       $scope.note = {title: 'Note', body: '', date: $scope.todayDate, ticker: $scope.ticker};
@@ -151,7 +159,7 @@ angular.module('stockMarketApp.controllers', [])
 
       promise.then(function(data){
         $scope.newsStories = data;
-      })
+      });
     }
 
     function getPriceData() {
@@ -163,11 +171,13 @@ angular.module('stockMarketApp.controllers', [])
 
         if (data.chg_percent >= 0 && data !== null) {
           $scope.reactiveColor = {
-            'background-color': '#33cd5f'
+            'background-color': '#33cd5f',
+            'border-color': 'rgba(255,255,255,.3)'
           };
         } else if (data.chg_percent < 0 && data === null) {
           $scope.reactiveColor = {
-            'background-color': '#ef473a'
+            'background-color': '#ef473a',
+            'border-color': 'rgba(0,0,0,.2)'
           };
         }
       });
