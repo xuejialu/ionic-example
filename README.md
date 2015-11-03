@@ -36,3 +36,15 @@ In this section, we install a third party JavaScript library that converts XML d
 Then we style the news card in style.css.
 
 Lastly, we implement a new filter that limits the number of characters in a component in the view.
+
+Section 12: Add Follow and Unfollow Stocks Functionality
+
+Summary
+
+In this section, we add the follow and unfollow stocks functionality.
+
+We implement a service to cache the my stocks array, as well as set the default stocks when the app first launches on a device.
+
+We load the cached array of default stocks into the view by setting the myStocksArray scope expression to an array returned by the myStocksArrayService.
+
+In order to check if a certain stock is being followed, we use a for loop to check the passed in stock against the my stocks array. We use the result of this expression in the view to determine the (un)follow button's contents.
