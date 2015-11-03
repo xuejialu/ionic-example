@@ -41,19 +41,10 @@ angular.module('stockMarketApp.controllers', [])
   };
 })
 
-.controller('MyStocksCtrl', ['$scope',
-  function($scope) {
+.controller('MyStocksCtrl', ['$scope', 'myStocksArrayService',
+  function($scope, myStocksArrayService) {
 
-    $scope.myStockArray =  [
-      {ticker : "AAPL"},
-      {ticker : "GE"},
-      {ticker : "FB"},
-      {ticker : "NOW"},
-      {ticker : "BAC"},
-      {ticker : "C"},
-      {ticker : "NFLX"},
-      {ticker : "BRK-A"}
-    ];
+    $scope.myStockArray = myStocksArrayService;
 }])
 
 .controller('StockCtrl', ['$scope', '$stateParams', '$window', '$ionicPopup', 'stockDataServce', 'dateService', 'chartDataService', 'notesService', 'newsService',

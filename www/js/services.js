@@ -85,6 +85,77 @@ angular.module('stockMarketApp.services', [])
   return notesCache;
 })
 
+.factory('fillMyStocksCacheService', function(CacheFactory) {
+
+  var myStocksCache;
+
+  if (!CacheFactory.get('myStocksCache')) {
+    myStocksCache = CacheFactory('myStocksCache', {
+      maxAge: 60 * 60 * 8 * 1000,
+      deleteOnExpire: 'aggressive',
+      storageMode: 'localStorage'
+    });
+  } else {
+    myStocksCache = CacheFactory.get('myStocksCache');
+  }
+
+  var fillMyStocksCache = function() {
+
+    var myStockArray =  [
+      {ticker : "AAPL"},
+      {ticker : "GE"},
+      {ticker : "FB"},
+      {ticker : "NOW"},
+      {ticker : "BAC"},
+      {ticker : "C"},
+      {ticker : "NFLX"},
+      {ticker : "BRK-A"}
+    ];
+
+    myStocksCache.put("myStocks", myStockArray);
+  };
+
+  return {
+    fillMyStocksCache: fillMyStocksCache
+  };
+})
+
+.factory('myStocksCacheService', function(CacheFactory) {
+
+  var myStocksCache = CacheFactory.get('myStocksCache');
+
+  return myStocksCache;
+})
+
+.factory('myStocksArrayService', function(fillMyStocksCacheService, myStocksCacheService) {
+
+  if (!myStocksCacheService.info('myStocks')) {
+    fillMyStocksCacheService.fillMyStocksCache();
+  }
+
+  var myStocks = myStocksCacheService.get('myStocks');
+
+  return myStocks;
+})
+
+.factory('followStockService', function() {
+
+  return {
+
+    follow : function(ticker) {
+
+    },
+
+    unfollow: function(ticker) {
+
+    },
+
+    checkFollowing: function(ticker) {
+
+    }
+  };
+})
+
 .factory('stockDataServce', function($q, $http, encodeURIService, stockDetailsCacheService) {
 
   var getDetailsData = function(ticker) {
