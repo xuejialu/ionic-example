@@ -48,3 +48,19 @@ We implement a service to cache the my stocks array, as well as set the default 
 We load the cached array of default stocks into the view by setting the myStocksArray scope expression to an array returned by the myStocksArrayService.
 
 In order to check if a certain stock is being followed, we use a for loop to check the passed in stock against the my stocks array. We use the result of this expression in the view to determine the (un)follow button's contents.
+
+Section 13: Add Stock Searching Functionality
+
+Summary
+
+In this section, we add stock searching functionality.
+
+We create a modal service, data service, controller, and view template for the search modal. We use an input component in the view to initialize a search function every time the input changes, passing in the input. We implement the search service method with the http service, but we use a custom callback, which we define through variables and a function.
+
+We use Ionic's debounce feature to delay the initialization of the search method each time the modal's input changes.
+
+We use the state service's go method to navigate to a stock's page from search results, passing in the stock's ticker as a state parameter.
+
+Also, we call the close modal service method directly from the modal by defining a scope variable in the AppCtrl set to call the modalService.
+
+Lastly, we style the modal in style.css and add an Ionic loading animation to the view to show when the search results are loading, in addition to a component that displays when there are no results for a given query, using ng-if, ng-hide, and ng-show directives.
