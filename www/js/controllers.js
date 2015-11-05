@@ -279,4 +279,12 @@ angular.module('stockMarketApp.controllers', [])
     };
 
 }])
+
+.controller('LoginSignupCtrl', ['$scope', 'modalService',
+  function($scope, modalService) {
+    $scope.closeModal = function() {
+      modalService.closeModal();
+    };
+
+  }])
 ;
