@@ -64,3 +64,18 @@ We use the state service's go method to navigate to a stock's page from search r
 Also, we call the close modal service method directly from the modal by defining a scope variable in the AppCtrl set to call the modalService.
 
 Lastly, we style the modal in style.css and add an Ionic loading animation to the view to show when the search results are loading, in addition to a component that displays when there are no results for a given query, using ng-if, ng-hide, and ng-show directives.
+
+
+Section 14: Build Out the My Stocks State
+
+Summary
+
+In this section, we build out the My Stocks view template and controller.
+
+Firstly, we add another factory service for stock price data, as well as implement the caching of the price data in the getPriceData method.
+
+We build an array with the stocks and their data in the controller by iterating over the my stocks array, each iteration calling the getPriceData method on that stock, and then pushing the information into the scope array. Also, we order the ng-repeat list using the orderBy filter.
+
+We add option buttons to the My Stocks view list, which call the unfollow method.
+
+We add pull to refresh functionality using an ion-refresher component.
