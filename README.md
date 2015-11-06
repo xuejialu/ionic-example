@@ -92,3 +92,12 @@ After, we add the LoginSignupCtrl.
 Next, we install Firebase and then start building out the userService, which utilizes our Firebase factory and content services to call Firebase user authentication convenience methods. Then we test the service methods through the modals by signing up, logging in, and logging out a new user.
 
 Lastly, we added logic to the Log In, Sign Up, and Log Out buttons in the side menu, so they will show and hide depending on whether a user is currently logged in.
+
+Section 16: Firebase Integration — Read and Write Data to a Firebase Database
+
+Summary
+
+In this section, we continue integrating Firebase to finish implementing the userService. In order to sync a new user's notes and stocks when they sign up, we call Firebase's push and set methods in the log in service method.
+
+Then, we add new service methods to update a logged in user's notes and stocks list when they make changes in the app.
+We structure the data in the database in a users node, which has child nodes for each user, and in each user's node, we have stocks and notes nodes where that user's data is stored.
