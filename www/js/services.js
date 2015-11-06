@@ -1,5 +1,7 @@
 angular.module('stockMarketApp.services', [])
 
+.constant('FIREBASE_URL', 'https://boiling-torch-9304.firebaseio.com/')
+
 .factory('encodeURIService', function(){
 
   return {
@@ -76,6 +78,73 @@ angular.module('stockMarketApp.services', [])
     oneYearAgoDate: oneYearAgoDate
   };
 
+})
+
+.factory('firebaseRef', function($firebase, FIREBASE_URL) {
+
+  var firebaseRef = new Firebase(FIREBASE_URL);
+
+  return firebaseRef;
+})
+
+.factory('firebaseUserRef', function(firebaseRef) {
+
+  var userRef = firebaseRef.child('users');
+
+  return userRef;
+})
+
+.factory('userService', function($rootScope, firebaseRef, firebaseUserRef, modalService) {
+
+  var login = function(user, signup) {
+
+    firebaseRef.authWithPassword({
+      email    : user.email,
+      password : user.password
+    }, function(error, authData) {
+      if (error) {
+        console.log("Login Failed!", error);
+      } else {
+        $rootScope.currentUser = user;
+        modalService.closeModal();
+        console.log("Authenticated Successfully with payload:", authData);
+      }
+    });
+  };
+
+  var signup = function(user) {
+
+    firebaseRef.createUser({
+      email    : user.email,
+      password : user.password
+    }, function(error, userData) {
+      if (error) {
+        console.log("Error creating user:", error);
+      } else {
+        login(user);
+        console.log("Successfully created user account with uid:", userData.uid);
+      }
+    });
+  };
+
+  var logout = function() {
+    firebaseRef.unauth();
+    $rootScope.currentUser = '';
+  };
+
+  var getUser = function() {
+    return firebaseRef.getAuth();
+  };
+
+  if (getUser()) {
+    $rootScope.currentUser = getUser();
+  }
+
+  return {
+    login: login,
+    signup: signup,
+    logout: logout
+  };
 })
 
 .factory('chartDataCacheService', function(CacheFactory) {

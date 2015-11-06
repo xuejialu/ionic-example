@@ -79,3 +79,16 @@ We build an array with the stocks and their data in the controller by iterating 
 We add option buttons to the My Stocks view list, which call the unfollow method.
 
 We add pull to refresh functionality using an ion-refresher component.
+
+
+Section 15: Firebase Integration — User Authentication
+
+Summary
+
+In this section, we finish implementing the modal service and build out the Log In and Sign Up modal view templates.
+
+After, we add the LoginSignupCtrl.
+
+Next, we install Firebase and then start building out the userService, which utilizes our Firebase factory and content services to call Firebase user authentication convenience methods. Then we test the service methods through the modals by signing up, logging in, and logging out a new user.
+
+Lastly, we added logic to the Log In, Sign Up, and Log Out buttons in the side menu, so they will show and hide depending on whether a user is currently logged in.
