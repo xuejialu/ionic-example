@@ -94,7 +94,7 @@ angular.module('stockMarketApp.services', [])
   return userRef;
 })
 
-.factory('userService', function($rootScope, firebaseRef, firebaseUserRef, modalService) {
+.factory('userService', function($rootScope, $window, firebaseRef, firebaseUserRef, modalService, myStocksArrayService, myStocksCacheService, notesCacheService) {
 
   var login = function(user, signup) {
 
@@ -122,14 +122,38 @@ angular.module('stockMarketApp.services', [])
         console.log("Error creating user:", error);
       } else {
         login(user);
-        console.log("Successfully created user account with uid:", userData.uid);
+        firebaseRef.child('emails').push(user.email);
+        firebaseUserRef.child(userData.uid).child('stocks').set(myStocksArrayService);
+
+        var stocksWithNotes = notesCacheService.keys();
+        stocksWithNotes.forEach(function(stockWithNotes) {
+          var notes = notesCacheService.get(stockWithNotes);
+
+          notes.forEach(function(note) {
+            firebaseUserRef.child(userData.uid).child('notes').child(note.ticker).push(note);
+          });
+        });
       }
     });
   };
 
   var logout = function() {
     firebaseRef.unauth();
+    notesCacheService.removeAll();
+    myStocksCacheService.removeAll();
+    $window.location.reload(true);
     $rootScope.currentUser = '';
+  };
+
+  var updateStocks = function(stocks) {
+    firebaseUserRef.child(getUser().uid).child('stocks').set(stocks);
+  };
+
+  var updateNotes = function(ticker, notes) {
+    firebaseUserRef.child(getUser().uid).child('notes').child(ticker).remove();
+    notes.forEach(function(note) {
+      firebaseUserRef.child(getUser().uid).child('notes').child(note.ticker).push(note);
+    });
   };
 
   var getUser = function() {
@@ -143,7 +167,10 @@ angular.module('stockMarketApp.services', [])
   return {
     login: login,
     signup: signup,
-    logout: logout
+    logout: logout,
+    updateStocks: updateStocks,
+    getUser: getUser,
+    updateNotes: updateNotes
   };
 })
 
@@ -268,7 +295,7 @@ angular.module('stockMarketApp.services', [])
   return myStocks;
 })
 
-.factory('followStockService', function(myStocksArrayService, myStocksCacheService) {
+.factory('followStockService', function(myStocksArrayService, myStocksCacheService, userService) {
 
   return {
 
@@ -278,6 +305,10 @@ angular.module('stockMarketApp.services', [])
 
       myStocksArrayService.push(stockToAdd);
       myStocksCacheService.put('myStocks', myStocksArrayService);
+
+      if(userService.getUser()) {
+        userService.updateStocks(myStocksArrayService);
+      }
     },
 
     unfollow: function(ticker) {
@@ -287,6 +318,10 @@ angular.module('stockMarketApp.services', [])
           myStocksArrayService.splice(i, 1);
           myStocksCacheService.remove('myStocks');
           myStocksCacheService.put('myStocks', myStocksArrayService);
+
+          if(userService.getUser()) {
+            userService.updateStocks(myStocksArrayService);
+          }
 
           break;
         }
@@ -435,7 +470,7 @@ angular.module('stockMarketApp.services', [])
   };
 })
 
-.factory('notesService', function(notesCacheService) {
+.factory('notesService', function(notesCacheService, userService) {
 
   return {
     getNotes: function(ticker) {
@@ -454,6 +489,11 @@ angular.module('stockMarketApp.services', [])
       }
 
       notesCacheService.put(ticker, stockNotes);
+
+      if(userService.getUser()) {
+        var notes = notesCacheService.get(ticker);
+        userService.updateNotes(ticker, stockNotes);
+      }
     },
 
     deleteNote: function(ticker, index) {
@@ -462,6 +502,11 @@ angular.module('stockMarketApp.services', [])
       stockNotes = notesCacheService.get(ticker);
       stockNotes.splice(index, 1);
       notesCacheService.put(ticker, stockNotes);
+
+      if(userService.getUser()) {
+        var notes = notesCacheService.get(ticker);
+        userService.updateNotes(ticker, stockNotes);
+      }
     }
   };
 })
