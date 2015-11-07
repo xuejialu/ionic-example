@@ -39,8 +39,8 @@ angular.module('stockMarketApp.controllers', [])
     };
 }])
 
-.controller('StockCtrl', ['$scope', '$stateParams', '$window', '$ionicPopup', 'followStockService', 'stockDataServce', 'dateService', 'chartDataService', 'notesService', 'newsService',
-  function($scope, $stateParams, $window, $ionicPopup, followStockService, stockDataServce, dateService, chartDataService, notesService, newsService) {
+.controller('StockCtrl', ['$scope', '$stateParams', '$window', '$ionicPopup', '$cordovaInAppBrowser', 'followStockService', 'stockDataServce', 'dateService', 'chartDataService', 'notesService', 'newsService',
+  function($scope, $stateParams, $window, $ionicPopup, $cordovaInAppBrowser, followStockService, stockDataServce, dateService, chartDataService, notesService, newsService) {
 
     $scope.ticker = $stateParams.stockTicker;
     $scope.chartView = 4;
@@ -72,8 +72,13 @@ angular.module('stockMarketApp.controllers', [])
     };
 
     $scope.openWindow = function(link) {
-      //TODO install and set up inAppBrowser
-      console.log("openWindow -> " + link);
+      var inAppBrowserOptions = {
+        location: 'yes',
+        clearcache: 'yes',
+        toolbar: 'yes'
+      };
+
+      $cordovaInAppBrowser.open(link, '_blank', inAppBrowserOptions);
     };
 
     $scope.addNote = function() {

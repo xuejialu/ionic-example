@@ -1,5 +1,6 @@
 angular.module('stockMarketApp', [
   'ionic',
+  'ngCordova',
   'firebase',
   'angular-cache',
   'nvd3',
@@ -22,7 +23,7 @@ angular.module('stockMarketApp', [
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
+      StatusBar.styleHex("#ffffff");
     }
   });
 })

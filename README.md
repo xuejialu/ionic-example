@@ -101,3 +101,13 @@ In this section, we continue integrating Firebase to finish implementing the use
 
 Then, we add new service methods to update a logged in user's notes and stocks list when they make changes in the app.
 We structure the data in the database in a users node, which has child nodes for each user, and in each user's node, we have stocks and notes nodes where that user's data is stored.
+
+Section 17:
+
+Install inAppBrowser: "cordova plugin add cordova-plugin-inappbrowser"
+
+Build ios app: "ionic build ios"
+
+Emulate ios app: "ionic emulate ios"
+
+To run on device: "ionic run ios --device" (need apple developer program)
